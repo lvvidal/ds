@@ -16,6 +16,7 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
 
+from scripts.cleanjson import clean_file
 
 # Airflow Variables
 AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
@@ -100,35 +101,41 @@ def loop_files():
             bash_command=f"""{AIRFLOW_HOME}/dags/copy/create_folder.sh {local_file} && {bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
             dag=dag)
 
-        cleaner = DummyOperator(
-            task_id='cleaner',
-            dag=dag)
-
-        loop_get_files.append([get_file >> cleaner])
-
-        # if os.path.splitext(val['remote_file']) == '.json':
-            
-        #     clean_json = BashOperator(
-        #         task_id=f'clean_json_{arquivo}',
-        #         bash_command=f"""{AIRFLOW_HOME}/dags/scripts/python {local_file}""",
-        #         dag=dag)
-
-        #     loop_get_files.append(clean_json)
-
-        # else:
-
-        #     clean_csv = DummyOperator(
-        #         task_id='clean_csv',
-        #         # bash_command=f"""sed -i '1d' {local_file}""",
-        #         # sed -i '1d' /home/airflow/gcs/data/payment.csv
-        #         dag=dag)
-            
-        #     loop_get_files.append(clean_csv)
+        loop_get_files.append(get_file)
 
     return loop_files
+
+def decide_which_path(**context):
+
+    for val in job_info.items():
+
+        if os.path.splitext(val['remote_file']) == '.json':
+            return "clean_json"         
+        else:
+            return "clean_csv"
+        
+clean_json = PythonOperator(
+    task_id=f'clean_json',
+    python_callable=clean_file,
+    op_kwargs={
+        'path': f'{AIRFLOW_HOME}/dags/data/'
+    },
+    dag=dag)
+
+clean_csv = BashOperator(
+    task_id='clean_csv_payment',
+    bash_command=f"""sed -i '1d' {local_file}""",
+    dag=dag)
+
+branch_task = BranchPythonOperator(
+    task_id='clean',
+    python_callable=decide_which_path,
+    trigger_rule="all_done",
+    provide_context=True,
+    dag=dag)
 
 end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> end_log
+start_log >> loop_files() >> branch_task >> [clean_json,clean_csv] end_log
