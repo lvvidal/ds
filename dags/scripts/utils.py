@@ -42,18 +42,16 @@ def json_2_csv(path):
         for fi in files:
 
             print(os.path.join(subdir, fi))
-            print(os.path.splitext(fi)[0])
-            print(os.path.splitext(fi)[0] + '.csv')
             print(os.path.join(subdir,(os.path.splitext(fi)[0] + '.csv')))
-            #sys.setdefaultencoding("UTF-8") 
+            sys.setdefaultencoding("UTF-8") 
 
-            # fileInput = os.path.join(subdir, fi)
-            # fileOutput = os.path.join('.csv'.join(os.path.splitext(fi)[0]))
-            # inputFile = open(fileInput)
-            # outputFile = open(fileOutput, 'w')
-            # data = json.load(inputFile)
-            # inputFile.close()
-            # output = csv.writer(outputFile)
-            # output.writerow(data[0].keys())
-            # for row in data:
-            #     output.writerow(row.values())
+            fileInput = os.path.join(subdir, fi)
+            fileOutput = os.path.join(subdir,(os.path.splitext(fi)[0] + '.csv'))
+            inputFile = open(fileInput)
+            outputFile = open(fileOutput, 'w')
+            data = json.load(inputFile)
+            inputFile.close()
+            output = csv.writer(outputFile)
+            output.writerow(data[0].keys())
+            for row in data:
+                output.writerow(row.values())
