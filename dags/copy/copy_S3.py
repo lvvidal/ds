@@ -130,6 +130,12 @@ def clean_json_files():
 
     return clean_json_files
 
+clean_csv = DummyOperator(
+    task_id='clean_csv',
+    # bash_command=f"""sed -i '1d' {local_file}""",
+    # sed -i '1d' /home/airflow/gcs/data/payment.csv
+    dag=dag)
+
 cleaner = DummyOperator(
     task_id='cleaner',
     dag=dag)
