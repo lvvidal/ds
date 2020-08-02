@@ -105,29 +105,8 @@ def loop_files():
 
     return loop_get_files
 
-def decide_which_path(**context):
-
-    for arquivo, val in job_info.items():
-
-        local_file = val['local_file']
-
-        print (local_file)
-
-        extension = os.path.splitext(local_file)[1]
-
-        print (extension)
-
-        if extension == '.json':
-            return "clean_json"         
-        else:
-            return "clean_csv"
-
-
-clean_task = BranchPythonOperator(
+clean_task = DummyOperator(
     task_id='clean_task',
-    python_callable=decide_which_path,
-    trigger_rule="all_done",
-    provide_context=True,
     dag=dag)
 
 clean_json = PythonOperator(
