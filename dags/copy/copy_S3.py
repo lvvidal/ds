@@ -69,45 +69,43 @@ job_info = {
     }
 }
 
+dag_name = "copy_from_s3"
 
+dag = DAG(
+    dag_id=dag_name,
+    default_args=args,
+    catchup=False,
+    schedule_interval='30 3 * * *')  # 00:30 GMT-3
 
-    dag_name = "copy_from_s3"
+#   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
+#       dag.doc_md = f.read()
 
-    bucketname = val['bucketname']
-    bashcommand = val['bashcommand']
-    remote_file = val['remote_file']
-    local_file = val['local_file']
+start_log = DummyOperator(
+    task_id='start_log',
+    dag=dag)
 
-    dag = DAG(
-        dag_id=dag_name,
-        default_args=args,
-        catchup=False,
-        schedule_interval='30 3 * * *')  # 00:30 GMT-3
+def loop_get_files():
 
- #   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
- #       dag.doc_md = f.read()
+    loop_get_files = []
 
-    start_log = DummyOperator(
-        task_id='start_log',
-        dag=dag)
+    for arquivo, val in job_info.items():
 
-    def loop_get_files():
+        bucketname = val['bucketname']
+        bashcommand = val['bashcommand']
+        remote_file = val['remote_file']
+        local_file = val['local_file']
 
-        loop_get_files = []
+        get_file = BashOperator(
+            task_id=f'get_file_{arquivo}',
+            bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
+            dag=dag)
 
-        for arquivo, val in job_info.items():
+        loop_get_files.append(get_file)
 
-            get_file = BashOperator(
-                task_id=f'get_file_{arquivo}',
-                bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
-                dag=dag)
+return loop_get_files
 
-            loop_get_files.append(get_file)
+end_log = DummyOperator(
+    task_id='end_log',
+    dag=dag)
 
-    return loop_get_files
-
-    end_log = DummyOperator(
-        task_id='end_log',
-        dag=dag)
-
-    start_log >> loop_get_files() >> end_log
+start_log >> loop_get_files() >> end_log
