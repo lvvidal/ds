@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from airflow.models import DAG
 from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.python_operator import PythonOperator, BranchPythonOperator
+from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
@@ -20,6 +20,8 @@ from scripts.cleanjson import clean_file
 
 # Airflow Variables
 AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
+
+dag_name = "copy_from_s3"
 
 args = {
     'owner': 'luiz-vidal',
@@ -70,8 +72,6 @@ job_info = {
     }
 }
 
-dag_name = "copy_from_s3"
-
 dag = DAG(
     dag_id=dag_name,
     default_args=args,
@@ -103,7 +103,7 @@ def loop_files():
 
         loop_get_files.append(get_file)
 
-    return loop_files
+    return loop_get_files
 
 clean_json = PythonOperator(
     task_id='clean_json',
