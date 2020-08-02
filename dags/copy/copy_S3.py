@@ -84,7 +84,7 @@ start_log = DummyOperator(
     task_id='start_log',
     dag=dag)
 
-def loop_get_files():
+def loop_files():
 
     loop_get_files = []
 
@@ -102,53 +102,35 @@ def loop_get_files():
 
         loop_get_files.append(get_file)
 
-    return loop_get_files
-
-def decide_which_path(**context):
-
-    for arquivo, val in job_info.items():
-
-        if os.path.splitext(val['remote_file']) == '.json':
-            return f"clean_json_{arquivo}"
-        else:
-            return "clean_csv"
-
-def clean_json_files():
-
-    loop_get_json = []
-
-    for arquivo, val in job_info.items():
-
-        local_file = val['local_file']
-
-        clean_json = BashOperator(
-            task_id=f'clean_json_{arquivo}',
-            bash_command=f"""{AIRFLOW_HOME}/dags/scripts/python {local_file}""",
+        cleaner = DummyOperator(
+            task_id='cleaner',
             dag=dag)
 
-        loop_get_json.append(clean_json)
+        loop_get_files.append(cleaner)
 
-    return clean_json_files
+        if os.path.splitext(val['remote_file']) == '.json':
+            
+            clean_json = BashOperator(
+                task_id=f'clean_json_{arquivo}',
+                bash_command=f"""{AIRFLOW_HOME}/dags/scripts/python {local_file}""",
+                dag=dag)
 
-clean_csv = DummyOperator(
-    task_id='clean_csv',
-    # bash_command=f"""sed -i '1d' {local_file}""",
-    # sed -i '1d' /home/airflow/gcs/data/payment.csv
-    dag=dag)
+            loop_get_files.append(clean_json)
 
-cleaner = DummyOperator(
-    task_id='cleaner',
-    dag=dag)
+        else:
 
-branch_task = BranchPythonOperator(
-    task_id='run_this_first',
-    python_callable=decide_which_path,
-    trigger_rule="all_done",
-    provide_context=True,
-    dag=dag)
+            clean_csv = DummyOperator(
+                task_id='clean_csv',
+                # bash_command=f"""sed -i '1d' {local_file}""",
+                # sed -i '1d' /home/airflow/gcs/data/payment.csv
+                dag=dag)
+            
+            loop_get_files.append(clean_csv)
+
+    return loop_files
 
 end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_get_files() >> cleaner >> [clean_json_files(),clean_csv] >> end_log
+start_log >> loop_files() >> end_log
