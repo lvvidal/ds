@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from airflow.models import DAG
 from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python_operator import PythonOperator, BranchPythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
@@ -81,6 +81,17 @@ dag = DAG(
 #   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
 #       dag.doc_md = f.read()
 
+def decide_which_path(**context):
+
+    for val in job_info.items():
+
+        if os.path.splitext(val['local_file']) == '.json':
+            path = "clean_json"         
+        else:
+            path = "clean_csv"
+
+    return path
+
 start_log = DummyOperator(
     task_id='start_log',
     dag=dag)
@@ -103,7 +114,14 @@ def loop_files():
 
         loop_get_files.append(get_file)
 
-    return loop_get_files
+    return loop_files
+
+clean_task = BranchPythonOperator(
+    task_id='clean_task',
+    python_callable=decide_which_path,
+    trigger_rule="all_done",
+    provide_context=True,
+    dag=dag)
 
 clean_json = PythonOperator(
     task_id='clean_json',
@@ -122,4 +140,4 @@ end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> clean_json >> clean_csv >> end_log
+start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> end_log
