@@ -81,6 +81,17 @@ dag = DAG(
 #   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
 #       dag.doc_md = f.read()
 
+def decide_which_path(**context):
+
+    for val in job_info.items():
+
+        if os.path.splitext(val['remote_file']) == '.json':
+            path = "clean_json"         
+        else:
+            path = "clean_csv"
+
+    return path
+
 start_log = DummyOperator(
     task_id='start_log',
     dag=dag)
@@ -105,23 +116,15 @@ def loop_files():
 
     return loop_files
 
-def decide_which_path(**context):
-
-    for val in job_info.items():
-
-        if os.path.splitext(val['remote_file']) == '.json':
-            path = "clean_json"         
-        else:
-            path = "clean_csv"
-
-    return path
-
-clean = DummyOperator(
+branch_task = BranchPythonOperator(
     task_id='clean',
+    python_callable=decide_which_path,
+    trigger_rule="all_done",
+    provide_context=True,
     dag=dag)
 
 clean_json = PythonOperator(
-    task_id=f'clean_json',
+    task_id='clean_json',
     python_callable=clean_file,
     op_kwargs={
         'path': f'{AIRFLOW_HOME}/dags/data/'
