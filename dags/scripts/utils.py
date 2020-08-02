@@ -12,7 +12,7 @@ def clean_file(path):
 
             print(os.path.join(subdir, f))
 
-            with open(f) as fp:
+            with open(os.path.join(subdir, f)) as fp:
                 line = fp.readline()
                 cnt = 1
                 
@@ -22,7 +22,7 @@ def clean_file(path):
                     line = fp.readline()
                     cnt += 1
 
-            f = open(f, 'w')
+            f = open(os.path.join(subdir, f), 'w')
 
             for (idx, i) in enumerate(data):
                 if idx == 0:
@@ -35,20 +35,24 @@ def clean_file(path):
 
 def json_2_csv(path):
 
+    rootdir = path
+
     for subdir, dirs, files in os.walk(rootdir):
 
         for fi in files:
 
             print(os.path.join(subdir, fi))
+            print(os.path.splitext(fi)[0])
+            print(os.path.join('.csv'.join(os.path.splitext(fi)[0])))
             #sys.setdefaultencoding("UTF-8") 
 
-            fileInput = fi
-            fileOutput = fo
-            inputFile = open(fileInput)
-            outputFile = open(fileOutput, 'w')
-            data = json.load(inputFile)
-            inputFile.close()
-            output = csv.writer(outputFile)
-            output.writerow(data[0].keys())
-            for row in data:
-                output.writerow(row.values())
+            # fileInput = os.path.join(subdir, fi)
+            # fileOutput = os.path.join('.csv'.join(os.path.splitext(fi)[0]))
+            # inputFile = open(fileInput)
+            # outputFile = open(fileOutput, 'w')
+            # data = json.load(inputFile)
+            # inputFile.close()
+            # output = csv.writer(outputFile)
+            # output.writerow(data[0].keys())
+            # for row in data:
+            #     output.writerow(row.values())
