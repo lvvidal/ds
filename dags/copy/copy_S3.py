@@ -84,17 +84,6 @@ start_log = DummyOperator(
     task_id='start_log',
     dag=dag)
 
-def decide_which_path(**context):
-
-    for arquivo, val in job_info.items():
-
-        extensao = val['remote_file']
-
-        if os.path.splitext(val['remote_file']) == '.json':
-            return "clean_json"
-        else:
-            return "clean_csv"
-
 def loop_get_files():
 
     loop_get_files = []
@@ -115,6 +104,32 @@ def loop_get_files():
 
     return loop_get_files
 
+def decide_which_path(**context):
+
+    for arquivo, val in job_info.items():
+
+        if os.path.splitext(val['remote_file']) == '.json':
+            return f"clean_json_{arquivo}"
+        else:
+            return "clean_csv"
+
+def clean_json_files():
+
+    loop_get_json = []
+
+    for arquivo, val in job_info.items():
+
+        local_file = val['local_file']
+
+        clean_json = BashOperator(
+            task_id=f'clean_json_{arquivo}',
+            bash_command=f"""{AIRFLOW_HOME}/dags/scripts/python {local_file}""",
+            dag=dag)
+
+        loop_get_json.append(clean_json)
+
+    return clean_json_files
+
 cleaner = DummyOperator(
     task_id='cleaner',
     dag=dag)
@@ -130,4 +145,4 @@ end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_get_files() >> cleaner >> [clean_json,clean_csv] >> end_log
+start_log >> loop_get_files() >> cleaner >> [clean_json_files(),clean_csv] >> end_log
