@@ -108,24 +108,24 @@ def loop_files():
 
         loop_get_files.append(cleaner)
 
-        if os.path.splitext(val['remote_file']) == '.json':
+        # if os.path.splitext(val['remote_file']) == '.json':
             
-            clean_json = BashOperator(
-                task_id=f'clean_json_{arquivo}',
-                bash_command=f"""{AIRFLOW_HOME}/dags/scripts/python {local_file}""",
-                dag=dag)
+        #     clean_json = BashOperator(
+        #         task_id=f'clean_json_{arquivo}',
+        #         bash_command=f"""{AIRFLOW_HOME}/dags/scripts/python {local_file}""",
+        #         dag=dag)
 
-            loop_get_files.append(clean_json)
+        #     loop_get_files.append(clean_json)
 
-        else:
+        # else:
 
-            clean_csv = DummyOperator(
-                task_id='clean_csv',
-                # bash_command=f"""sed -i '1d' {local_file}""",
-                # sed -i '1d' /home/airflow/gcs/data/payment.csv
-                dag=dag)
+        #     clean_csv = DummyOperator(
+        #         task_id='clean_csv',
+        #         # bash_command=f"""sed -i '1d' {local_file}""",
+        #         # sed -i '1d' /home/airflow/gcs/data/payment.csv
+        #         dag=dag)
             
-            loop_get_files.append(clean_csv)
+        #     loop_get_files.append(clean_csv)
 
     return loop_files
 
