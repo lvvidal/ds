@@ -110,10 +110,12 @@ def decide_which_path(**context):
     for val in job_info.items():
 
         if os.path.splitext(val['remote_file']) == '.json':
-            return "clean_json"         
+            path = "clean_json"         
         else:
-            return "clean_csv"
-        
+            path = "clean_csv"
+
+    return path
+
 clean_json = PythonOperator(
     task_id=f'clean_json',
     python_callable=clean_file,
@@ -123,7 +125,7 @@ clean_json = PythonOperator(
     dag=dag)
 
 clean_csv = BashOperator(
-    task_id='clean_csv_payment',
+    task_id='clean_csv',
     bash_command=f"""sed -i '1d' {local_file}""",
     dag=dag)
 
@@ -138,4 +140,4 @@ end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> branch_task >> [clean_json,clean_csv] end_log
+start_log >> loop_files() >> branch_task >> [clean_json,clean_csv] >> end_log
