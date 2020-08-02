@@ -113,7 +113,7 @@ clean_json = PythonOperator(
     task_id='clean_json',
     python_callable=clean_file,
     op_kwargs={
-        'path': f'{AIRFLOW_HOME}/dags/data/'
+        'path': f'{AIRFLOW_HOME}/dags/data/json'
     },
     dag=dag)
 
