@@ -81,17 +81,6 @@ dag = DAG(
 #   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
 #       dag.doc_md = f.read()
 
-def decide_which_path(**context):
-
-    for val in job_info.items():
-
-        if os.path.splitext(val['local_file']) == '.json':
-            path = "clean_json"         
-        else:
-            path = "clean_csv"
-
-    return path
-
 start_log = DummyOperator(
     task_id='start_log',
     dag=dag)
@@ -115,6 +104,22 @@ def loop_files():
         loop_get_files.append(get_file)
 
     return loop_get_files
+
+def decide_which_path(**context):
+
+    for val in job_info.items():
+
+    for arquivo, val in job_info.items():
+
+        local_file = val['local_file']
+
+        print (local_file)
+
+        if os.path.splitext(local_file)[1] == '.json':
+            return "clean_json"         
+        else:
+            return "clean_csv"
+
 
 clean_task = BranchPythonOperator(
     task_id='clean_task',
