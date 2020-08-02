@@ -16,7 +16,7 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
 
-from scripts.cleanjson import clean_file
+from scripts.utils import clean_file, json_2_csv
 
 # Airflow Variables
 AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
@@ -122,8 +122,16 @@ clean_csv = BashOperator(
     bash_command=f"""sed -i '1d' {AIRFLOW_HOME}/dags/data/csv/nyc_payment.csv""",
     dag=dag)
 
+json_to_csv = PythonOperator(
+    task_id='json_to_csv',
+    python_callable=json_2_csv,
+    op_kwargs={
+        'path': f'{AIRFLOW_HOME}/dags/data/json'
+    },
+    dag=dag)
+
 end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> end_log
+start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> json_to_csv >> end_log
