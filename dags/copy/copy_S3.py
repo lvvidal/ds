@@ -80,32 +80,32 @@ dag = DAG(
 #   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
 #       dag.doc_md = f.read()
 
-start_log = DummyOperator(
-    task_id='start_log',
-    dag=dag)
+    start_log = DummyOperator(
+        task_id='start_log',
+        dag=dag)
 
-def loop_get_files():
+    def loop_get_files():
 
-    loop_get_files = []
+        loop_get_files = []
 
-    for arquivo, val in job_info.items():
+        for arquivo, val in job_info.items():
 
-        bucketname = val['bucketname']
-        bashcommand = val['bashcommand']
-        remote_file = val['remote_file']
-        local_file = val['local_file']
+            bucketname = val['bucketname']
+            bashcommand = val['bashcommand']
+            remote_file = val['remote_file']
+            local_file = val['local_file']
 
-        get_file = BashOperator(
-            task_id=f'get_file_{arquivo}',
-            bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
-            dag=dag)
+            get_file = BashOperator(
+                task_id=f'get_file_{arquivo}',
+                bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
+                dag=dag)
 
-        loop_get_files.append(get_file)
+            loop_get_files.append(get_file)
 
-return loop_get_files
+        return loop_get_files
 
-end_log = DummyOperator(
-    task_id='end_log',
-    dag=dag)
+    end_log = DummyOperator(
+        task_id='end_log',
+        dag=dag)
 
 start_log >> loop_get_files() >> end_log
