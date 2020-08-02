@@ -6,16 +6,19 @@
 # ***************************************************************************
 
 import os
+import requests
+import sys
 from pathlib import Path
-
-from airflow.models import Variable
-from airflow import DAG
+from airflow.models import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
+from airflow.models import Variable
 from datetime import datetime, timedelta
-import requests
-import sys
+
+
+# Airflow Variables
+AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
 
 args = {
     'owner': 'luiz-vidal',
@@ -65,9 +68,6 @@ job_info = {
         "local_file": f"{AIRFLOW_HOME}/data/csv/nyc_vendor.csv"
     }
 }
-
-# Airflow Variables
-AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
 
 for arquivo, val in job_info.items():
 
