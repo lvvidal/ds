@@ -84,6 +84,17 @@ start_log = DummyOperator(
     task_id='start_log',
     dag=dag)
 
+def decide_which_path(**context):
+
+    for arquivo, val in job_info.items():
+
+        extensao = val['remote_file']
+
+        if os.path.splitext(val['remote_file']) == '.json':
+            return "clean_json"
+        else:
+            return "clean_csv"
+
 def loop_get_files():
 
     loop_get_files = []
@@ -104,8 +115,19 @@ def loop_get_files():
 
     return loop_get_files
 
+cleaner = DummyOperator(
+    task_id='cleaner',
+    dag=dag)
+
+branch_task = BranchPythonOperator(
+    task_id='run_this_first',
+    python_callable=decide_which_path,
+    trigger_rule="all_done",
+    provide_context=True,
+    dag=dag)
+
 end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_get_files() >> end_log
+start_log >> loop_get_files() >> cleaner >> [clean_json,clean_csv] >> end_log
