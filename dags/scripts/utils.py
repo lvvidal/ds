@@ -43,7 +43,8 @@ def json_2_csv(path):
 
             print(os.path.join(subdir, fi))
             print(os.path.splitext(fi)[0])
-            print('.csv'.join(os.path.splitext(fi)[0]))
+            print(os.path.splitext(fi)[0] + '.csv')
+            print(os.path.join(subdir,(os.path.splitext(fi)[0] + '.csv')))
             #sys.setdefaultencoding("UTF-8") 
 
             # fileInput = os.path.join(subdir, fi)
