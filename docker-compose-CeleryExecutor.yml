@@ -50,6 +50,7 @@ services:
             # - REDIS_PASSWORD=redispass
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - ./logs:/usr/local/airflow/data
             - ./docker/airflow/requirements.txt:/requirements.txt
             - ./docker/airflow/postgres_conn.py:/postgres_conn.py
             # Uncomment to include custom plugins
@@ -87,6 +88,7 @@ services:
             - redis
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - ./logs:/usr/local/airflow/data
             - ./docker/airflow/requirements.txt:/requirements.txt
             - ./docker/airflow/postgres_conn.py:/postgres_conn.py
             # Uncomment to include custom plugins
@@ -117,6 +119,7 @@ services:
             - redis
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - ./logs:/usr/local/airflow/data
             - ./docker/airflow/requirements.txt:/requirements.txt
             - ./docker/airflow/postgres_conn.py:/postgres_conn.py
             # Uncomment to include custom plugins
