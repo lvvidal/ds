@@ -100,13 +100,11 @@ def loop_files():
             bash_command=f"""{AIRFLOW_HOME}/dags/copy/create_folder.sh {local_file} && {bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
             dag=dag)
 
-        loop_get_files.append(get_file)
-
         cleaner = DummyOperator(
             task_id='cleaner',
             dag=dag)
 
-        loop_get_files.append(cleaner)
+        loop_get_files.append([get_file >> cleaner])
 
         # if os.path.splitext(val['remote_file']) == '.json':
             
