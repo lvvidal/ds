@@ -7,7 +7,7 @@ file_name=$(basename $local_file | cut -d'.' -f1)
 echo "file_name=$file_name"
 
 dir_local=$(dirname $local_file)
-echo "dir_local=$dirname"
+echo "dir_local=$dir_local"
 
 if [ ! -d  "$(dirname $local_file)" ]; then
     mkdir -p "$(dirname $local_file)"
