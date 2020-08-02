@@ -107,13 +107,17 @@ def loop_files():
 
 def decide_which_path(**context):
 
-    for val in job_info.items():
+    for arquivo, val in job_info.items():
 
         local_file = val['local_file']
 
         print (local_file)
 
-        if os.path.splitext(local_file)[1] == '.json':
+        extension = os.path.splitext(local_file)[1]
+
+        print (extension)
+
+        if extension == '.json':
             return "clean_json"         
         else:
             return "clean_csv"
