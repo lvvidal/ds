@@ -74,8 +74,6 @@ alias ll='ls -lah --color'
 case "$1" in
   webserver)
     airflow initdb
-    airflow variables -j -i /usr/local/airflow/dags/config/env.json
-    echo "$(date) - Variables added"
     if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ] || [ "$AIRFLOW__CORE__EXECUTOR" = "SequentialExecutor" ]; then
       # With the "Local" and "Sequential" executors it should all run in one container.
       airflow scheduler &

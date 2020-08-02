@@ -28,7 +28,8 @@ services:
         #     - ./pgdata:/var/lib/postgresql/data/pgdata
 
     webserver:
-        image: puckel/docker-airflow:1.10.9
+        #image: puckel/docker-airflow:1.10.9
+        build: docker/airflow
         restart: always
         depends_on:
             - postgres
@@ -37,12 +38,21 @@ services:
             - LOAD_EX=n
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
+            - POSTGRES_HOST=postgres
+            - POSTGRES_PORT=5432
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+            - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
             # - REDIS_PASSWORD=redispass
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - ./docker/airflow/requirements.txt:/requirements.txt
+            - ./docker/airflow/postgres_conn.py:/postgres_conn.py
             # Uncomment to include custom plugins
             # - ./plugins:/usr/local/airflow/plugins
         ports:
@@ -55,30 +65,45 @@ services:
             retries: 3
 
     flower:
-        image: puckel/docker-airflow:1.10.9
+        #image: puckel/docker-airflow:1.10.9
+        build: docker/airflow
         restart: always
         depends_on:
+            - postgres
             - redis
         environment:
             - EXECUTOR=Celery
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - REDIS_PASSWORD=redispass
         ports:
             - "5555:5555"
         command: flower
 
     scheduler:
-        image: puckel/docker-airflow:1.10.9
+        #image: puckel/docker-airflow:1.10.9
+        build: docker/airflow
         restart: always
         depends_on:
             - webserver
+            - postgres
+            - redis
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - ./docker/airflow/requirements.txt:/requirements.txt
+            - ./docker/airflow/postgres_conn.py:/postgres_conn.py
             # Uncomment to include custom plugins
             # - ./plugins:/usr/local/airflow/plugins
         environment:
             - LOAD_EX=n
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
+            - POSTGRES_HOST=postgres
+            - POSTGRES_PORT=5432
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+            - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
@@ -86,17 +111,30 @@ services:
         command: scheduler
 
     worker:
-        image: puckel/docker-airflow:1.10.9
+        #image: puckel/docker-airflow:1.10.9
+        build: docker/airflow
         restart: always
         depends_on:
             - scheduler
+            - postgres
+            - redis
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - ./docker/airflow/requirements.txt:/requirements.txt
+            - ./docker/airflow/postgres_conn.py:/postgres_conn.py
             # Uncomment to include custom plugins
             # - ./plugins:/usr/local/airflow/plugins
         environment:
+            - LOAD_EX=n
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
+            - POSTGRES_HOST=postgres
+            - POSTGRES_PORT=5432
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+            - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
