@@ -109,8 +109,6 @@ def decide_which_path(**context):
 
     for val in job_info.items():
 
-    for arquivo, val in job_info.items():
-
         local_file = val['local_file']
 
         print (local_file)
