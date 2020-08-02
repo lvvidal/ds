@@ -126,18 +126,11 @@ clean_json = PythonOperator(
 
 clean_csv = BashOperator(
     task_id='clean_csv',
-    bash_command=f"""sed -i '1d' {local_file}""",
-    dag=dag)
-
-branch_task = BranchPythonOperator(
-    task_id='clean',
-    python_callable=decide_which_path,
-    trigger_rule="all_done",
-    provide_context=True,
+    bash_command=f"""sed -i '1d' {AIRFLOW_HOME}/dags/data/csv/nyc_payment.csv""",
     dag=dag)
 
 end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> branch_task >> [clean_json,clean_csv] >> end_log
+start_log >> loop_files() >> [clean_json,clean_csv] >> end_log
