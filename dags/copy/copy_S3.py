@@ -69,7 +69,7 @@ job_info = {
     }
 }
 
-for arquivo, val in job_info.items():
+
 
     dag_name = "copy_from_s3"
 
@@ -95,13 +95,15 @@ for arquivo, val in job_info.items():
 
         loop_get_files = []
 
-        get_file = BashOperator(
-            task_id=f'get_file_{arquivo}',
-            bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
-            dag=dag)
+        for arquivo, val in job_info.items():
 
-            loop_get_files.append(loop_get_files)
-            
+            get_file = BashOperator(
+                task_id=f'get_file_{arquivo}',
+                bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
+                dag=dag)
+
+            loop_get_files.append(get_file)
+
     return loop_get_files
 
     end_log = DummyOperator(
