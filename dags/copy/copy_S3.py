@@ -97,7 +97,8 @@ def loop_get_files():
 
         get_file = BashOperator(
             task_id=f'get_file_{arquivo}',
-            bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
+            bash_command=f"""{AIRFLOW_HOME}/dags/copy/create_folder.sh {local_file} && \
+                {bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
             dag=dag)
 
         loop_get_files.append(get_file)
