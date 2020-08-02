@@ -116,6 +116,10 @@ def decide_which_path(**context):
 
     return path
 
+clean = DummyOperator(
+    task_id='clean',
+    dag=dag)
+
 clean_json = PythonOperator(
     task_id=f'clean_json',
     python_callable=clean_file,
@@ -133,4 +137,4 @@ end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> [clean_json,clean_csv] >> end_log
+start_log >> loop_files() >> clean >> [clean_json,clean_csv] >> end_log
