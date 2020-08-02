@@ -5,7 +5,10 @@
 # Candidato : Luiz Vinicius Izidorio Vidal
 # ***************************************************************************
 
+import os
+from pathlib import Path
 
+from airflow.models import Variable
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
@@ -15,7 +18,7 @@ import requests
 import sys
 
 args = {
-    'owner': 'data-team',
+    'owner': 'luiz-vidal',
     'start_date': datetime(2020, 8, 1),
     'depends_on_past': False,
     'retries': 3,
@@ -62,6 +65,9 @@ job_info = {
         "local_file": f"{AIRFLOW_HOME}/data/csv/nyc_vendor.csv"
     }
 }
+
+# Airflow Variables
+AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
 
 for arquivo, val in job_info.items():
 
