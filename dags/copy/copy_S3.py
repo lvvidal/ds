@@ -85,7 +85,7 @@ def decide_which_path(**context):
 
     for val in job_info.items():
 
-        if os.path.splitext(val['remote_file']) == '.json':
+        if os.path.splitext(val['local_file']) == '.json':
             path = "clean_json"         
         else:
             path = "clean_csv"
@@ -116,8 +116,8 @@ def loop_files():
 
     return loop_files
 
-branch_task = BranchPythonOperator(
-    task_id='clean',
+clean_task = BranchPythonOperator(
+    task_id='clean_task',
     python_callable=decide_which_path,
     trigger_rule="all_done",
     provide_context=True,
@@ -140,4 +140,4 @@ end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> clean >> [clean_json,clean_csv] >> end_log
+start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> end_log
