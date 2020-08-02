@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from airflow.models import DAG
 from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python_operator import PythonOperator, BranchPythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
