@@ -114,7 +114,7 @@ def loop_files():
 
         loop_get_files.append(get_file)
 
-    return loop_files
+    return loop_get_files
 
 clean_task = BranchPythonOperator(
     task_id='clean_task',
