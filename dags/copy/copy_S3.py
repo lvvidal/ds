@@ -91,13 +91,21 @@ for arquivo, val in job_info.items():
         task_id='start_log',
         dag=dag)
 
-    get_file = BashOperator(
-        task_id=f'get_file_{arquivo}',
-        bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
-        dag=dag)
+    def loop_get_files():
+
+        loop_get_files = []
+
+        get_file = BashOperator(
+            task_id=f'get_file_{arquivo}',
+            bash_command=f"""{bashcommand} "{bucketname}/{remote_file}" > {local_file} """,
+            dag=dag)
+
+            loop_get_files.append(loop_get_files)
+            
+    return loop_get_files
 
     end_log = DummyOperator(
         task_id='end_log',
         dag=dag)
 
-    start_log >> get_file >> end_log
+    start_log >> loop_get_files() >> end_log
