@@ -157,7 +157,7 @@ def upload_files():
 
         up_files.append(upload_to_s3)
 
-    return upload_files
+    return up_files
 
 end_log = DummyOperator(
     task_id='end_log',
