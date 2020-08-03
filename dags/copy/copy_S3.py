@@ -22,6 +22,7 @@ from scripts.utils import clean_file, json_2_csv
 AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
 
 dag_name = "copy_from_s3"
+bucket_name = "data-sprints-candidate-luizvidal"
 
 args = {
     'owner': 'luiz-vidal',
@@ -38,37 +39,43 @@ job_info = {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
         "bashcommand": "curl -k -X GET",
         "remote_file": "data-sample_data-nyctaxi-trips-2009-json_corrigido.json",
-        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2009.json"
+        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2009.json",
+        "folder_s3": "trips"
     },
     "extractJSON2010": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
         "bashcommand": "curl -k -X GET",
         "remote_file": "data-sample_data-nyctaxi-trips-2010-json_corrigido.json",
-        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2010.json"
+        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2010.json",
+        "folder_s3": "trips"
     },
     "extractJSON2011": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
         "bashcommand": "curl -k -X GET",
         "remote_file": "data-sample_data-nyctaxi-trips-2011-json_corrigido.json",
-        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2011.json"
+        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2011.json",
+        "folder_s3": "trips"
     },
     "extractJSON2012": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
         "bashcommand": "curl -k -X GET",
         "remote_file": "data-sample_data-nyctaxi-trips-2012-json_corrigido.json",
-        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2012.json"
+        "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2012.json",
+        "folder_s3": "trips"
     },
     "extractCSVPayment": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
         "bashcommand": "curl -k -X GET",
         "remote_file": "data-payment_lookup-csv.csv",
-        "local_file": f"{AIRFLOW_HOME}/dags/data/csv/nyc_payment.csv"
+        "local_file": f"{AIRFLOW_HOME}/dags/data/csv/nyc_payment.csv",
+        "folder_s3": "payment"
     },
     "extractCSVVendor": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
         "bashcommand": "curl -k -X GET",
         "remote_file": "data-vendor_lookup-csv.csv",
-        "local_file": f"{AIRFLOW_HOME}/dags/data/csv/nyc_vendor.csv"
+        "local_file": f"{AIRFLOW_HOME}/dags/data/csv/nyc_vendor.csv",
+        "folder_s3": "vendor"
     }
 }
 
@@ -130,8 +137,30 @@ json_to_csv = PythonOperator(
     },
     dag=dag)
 
+copy_files = BashOperator(
+    task_id='copy_files',
+    bash_command=f"""{AIRFLOW_HOME}/dags/copy/copy_files.sh {AIRFLOW_HOME}/dags/data {AIRFLOW_HOME}/dags/load""",
+    dag=dag)
+
+def upload_files():
+
+    up_files = []
+
+    for arquivo, val in job_info.items():
+
+        folder_s3 = val['local_file']
+
+        upload_to_s3 = BashOperator(
+            task_id=f'upload_to_s3_{arquivo}',
+            bash_command=f"""{AIRFLOW_HOME}/dags/copy/upload_s3.sh {bucket_name} {folder_s3} {AIRFLOW_HOME}/dags/load""",
+            dag=dag)
+
+        up_files.append(upload_to_s3)
+
+    return upload_files
+
 end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> json_to_csv >> end_log
+start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> json_to_csv >> copy_files >> upload_files() >> end_log
