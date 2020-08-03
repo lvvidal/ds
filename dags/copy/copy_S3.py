@@ -16,7 +16,7 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
 
-from scripts.utils import clean_file, json_2_csv
+from scripts.utils import clean_file, json_2_csv, copy_load_files
 
 # Airflow Variables
 AIRFLOW_HOME = Path(os.environ.get("AIRFLOW_HOME", "~/airflow"))
