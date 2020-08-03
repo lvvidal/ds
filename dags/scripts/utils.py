@@ -1,5 +1,6 @@
 import os
 import csv, json, sys
+import shutil
 
 def clean_file(path):
 
@@ -55,3 +56,16 @@ def json_2_csv(path):
             output.writerow(data[0].keys())
             for row in data:
                 output.writerow(row.values())
+
+def copy_load_files(source,destination):
+
+    src_dir = source
+    dst_dir = destination
+
+    print(src_dir)
+    print(dst_dir)
+
+    for root, dirs, files in os.walk(src_dir):
+        for f in files:
+            if f.endswith('.csv'):
+                shutil.copy(os.path.join(root,f), dst_dir)

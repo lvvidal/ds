@@ -137,9 +137,13 @@ json_to_csv = PythonOperator(
     },
     dag=dag)
 
-copy_files = BashOperator(
+copy_files = PythonOperator(
     task_id='copy_files',
-    bash_command=f"""{AIRFLOW_HOME}/dags/copy/copy_files.sh {AIRFLOW_HOME}/dags/data {AIRFLOW_HOME}/dags/load""",
+    python_callable=copy_load_files,
+    op_kwargs={
+        'source': f'{AIRFLOW_HOME}/dags/data/',
+        'destination' : f'{AIRFLOW_HOME}/dags/load/'
+    },
     dag=dag)
 
 def upload_files():
