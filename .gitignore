@@ -1,2 +1,7 @@
 # ignorar
 .env
+
+# folders 
+__pycache__/
+dags/load
+dags/data
