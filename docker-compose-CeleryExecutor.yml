@@ -44,9 +44,9 @@ services:
             - POSTGRES_DB=airflow
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
             - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
-            - AWS_DEFAULT_REGION=${region_name}
-            - AWS_ACCESS_KEY_ID=${aws_access_key_id}
-            - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            # - AWS_DEFAULT_REGION=${region_name}
+            # - AWS_ACCESS_KEY_ID=${aws_access_key_id}
+            # - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
@@ -75,9 +75,9 @@ services:
             - redis
         environment:
             - EXECUTOR=Celery
-            - AWS_DEFAULT_REGION=${region_name}
-            - AWS_ACCESS_KEY_ID=${aws_access_key_id}
-            - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            # - AWS_DEFAULT_REGION=${region_name}
+            # - AWS_ACCESS_KEY_ID=${aws_access_key_id}
+            # - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
             # - REDIS_PASSWORD=redispass
         ports:
             - "5555:5555"
@@ -107,9 +107,9 @@ services:
             - POSTGRES_DB=airflow
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
             - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
-            - AWS_DEFAULT_REGION=${region_name}
-            - AWS_ACCESS_KEY_ID=${aws_access_key_id}
-            - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            # - AWS_DEFAULT_REGION=${region_name}
+            # - AWS_ACCESS_KEY_ID=${aws_access_key_id}
+            # - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
@@ -140,9 +140,9 @@ services:
             - POSTGRES_DB=airflow
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
             - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
-            - AWS_DEFAULT_REGION=${region_name}
-            - AWS_ACCESS_KEY_ID=${aws_access_key_id}
-            - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            # - AWS_DEFAULT_REGION=${region_name}
+            # - AWS_ACCESS_KEY_ID=${aws_access_key_id}
+            # - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow

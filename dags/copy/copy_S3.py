@@ -41,7 +41,7 @@ job_info = {
         "remote_file": "data-sample_data-nyctaxi-trips-2009-json_corrigido.json",
         "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2009.json",
         "csv_file":"nyc_2009.csv",
-        "folder_s3": "trips"
+        "folder_s3": "batch/trips"
     },
     "extractJSON2010": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
@@ -49,7 +49,7 @@ job_info = {
         "remote_file": "data-sample_data-nyctaxi-trips-2010-json_corrigido.json",
         "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2010.json",
         "csv_file":"nyc_2010.csv",
-        "folder_s3": "trips"
+        "folder_s3": "batch/trips"
     },
     "extractJSON2011": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
@@ -57,7 +57,7 @@ job_info = {
         "remote_file": "data-sample_data-nyctaxi-trips-2011-json_corrigido.json",
         "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2011.json",
         "csv_file":"nyc_2011.csv",
-        "folder_s3": "trips"
+        "folder_s3": "batch/trips"
     },
     "extractJSON2012": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
@@ -65,7 +65,7 @@ job_info = {
         "remote_file": "data-sample_data-nyctaxi-trips-2012-json_corrigido.json",
         "local_file": f"{AIRFLOW_HOME}/dags/data/json/nyc_2012.json",
         "csv_file":"nyc_2012.csv",
-        "folder_s3": "trips"
+        "folder_s3": "batch/trips"
     },
     "extractCSVPayment": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
@@ -73,7 +73,7 @@ job_info = {
         "remote_file": "data-payment_lookup-csv.csv",
         "local_file": f"{AIRFLOW_HOME}/dags/data/csv/nyc_payment.csv",
         "csv_file":"nyc_payment.csv",
-        "folder_s3": "payment"
+        "folder_s3": "batch/payment"
     },
     "extractCSVVendor": {
         "bucketname": "https://s3.amazonaws.com/data-sprints-eng-test",
@@ -81,7 +81,7 @@ job_info = {
         "remote_file": "data-vendor_lookup-csv.csv",
         "local_file": f"{AIRFLOW_HOME}/dags/data/csv/nyc_vendor.csv",
         "csv_file":"nyc_vendor.csv",
-        "folder_s3": "vendor"
+        "folder_s3": "batch/vendor"
     }
 }
 
