@@ -65,6 +65,9 @@ def copy_load_files(source,destination):
     print(src_dir)
     print(dst_dir)
 
+    if not os.path.exists(dst_dir):
+        os.makedirs(dst_dir)
+
     for root, dirs, files in os.walk(src_dir):
         for f in files:
             if f.endswith('.csv'):
