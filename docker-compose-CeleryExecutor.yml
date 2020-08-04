@@ -47,6 +47,7 @@ services:
             - AWS_DEFAULT_REGION=${region_name}
             - AWS_ACCESS_KEY_ID=${aws_access_key_id}
             - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
@@ -78,6 +79,7 @@ services:
             - AWS_DEFAULT_REGION=${region_name}
             - AWS_ACCESS_KEY_ID=${aws_access_key_id}
             - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - REDIS_PASSWORD=redispass
         ports:
             - "5555:5555"
@@ -110,6 +112,7 @@ services:
             - AWS_DEFAULT_REGION=${region_name}
             - AWS_ACCESS_KEY_ID=${aws_access_key_id}
             - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
@@ -143,6 +146,7 @@ services:
             - AWS_DEFAULT_REGION=${region_name}
             - AWS_ACCESS_KEY_ID=${aws_access_key_id}
             - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+            - DEFAULT_ENV=${DEFAULT_ENV}
             # - POSTGRES_USER=airflow
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
