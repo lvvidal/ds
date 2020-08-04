@@ -10,7 +10,7 @@ services:
         restart: unless-stopped
         volumes:
             - /nifi:/nifi
-            - ./dags/copy/scripts:/nifi/scripts
+            - ./dags/scripts:/nifi/scripts
             - /opt/nifi-current/flowfile_repository:/nifi_dataflow
         ports:
             - "9595:9595"
