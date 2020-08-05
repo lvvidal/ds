@@ -107,8 +107,7 @@ Este workflow faz as seguintes tarefas:
 #### Data-Engineer
 
 Em caso de dúvidas, favor contactar:
-
-<br> Luiz Vinicius Vidal <br>
+Luiz Vinicius Vidal <br>
 
 - [E-mail](mailto:lvvidal@gmail.com)
 - [Skype](callto:winicjusz.vidal)
