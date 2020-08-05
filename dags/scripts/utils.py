@@ -4,13 +4,14 @@ import shutil
 
 def clean_file(path):
 
-    data = []
     rootdir = path
 
     for subdir, dirs, files in os.walk(rootdir):
 
         for f in files:
 
+            data = []
+            
             print(os.path.join(subdir, f))
 
             with open(os.path.join(subdir, f)) as fp:
@@ -54,6 +55,7 @@ def json_2_csv(path):
             inputFile.close()
             output = csv.writer(outputFile)
             output.writerow(data[0].keys())
+
             for row in data:
                 output.writerow(row.values())
 
