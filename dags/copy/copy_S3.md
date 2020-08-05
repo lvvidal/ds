@@ -5,9 +5,9 @@
   </summary>
 <p>
 
-<p align="left">
+<p align="center">
   <a href="https://datasprints.com/">
-    <img src="https://data-sprints-candidate-luizvidal.s3.us-east-2.amazonaws.com/logo.png" alt="Data Sprints" width="128" height="128">
+    <img src="https://data-sprints-candidate-luizvidal.s3.us-east-2.amazonaws.com/logo.png" alt="Data Sprints" width="256" height="128">
   </a>
 </p>
 
@@ -109,7 +109,8 @@ Este workflow faz as seguintes tarefas:
 Em caso de dúvidas, favor contactar:
 
 - [Luiz Vidal](mailto:lvvidal@gmail.com)
-- [Whatsapp](+5541991335129)
+- [Skype](callto:winicjusz.vidal)
+- [Whatsapp](tel:+5541991335129)
 
 </p>
 </details>
