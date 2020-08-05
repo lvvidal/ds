@@ -170,8 +170,13 @@ def upload_files():
 
     return up_files
 
+remove_old_files = BashOperator(
+    task_id='remove_old_files',
+    bash_command=f"""rm -rf {AIRFLOW_HOME}/dags/data/""",
+    dag=dag)
+
 end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> json_to_csv >> move_files >> upload_files() >> end_log
+start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> json_to_csv >> move_files >> upload_files() >> remove_old_files >> end_log
