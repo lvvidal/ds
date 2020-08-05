@@ -174,4 +174,4 @@ end_log = DummyOperator(
     task_id='end_log',
     dag=dag)
 
-start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> json_to_csv >> copy_files >> upload_files() >> end_log
+start_log >> loop_files() >> clean_task >> [clean_json,clean_csv] >> json_to_csv >> move_files >> upload_files() >> end_log
