@@ -108,7 +108,9 @@ Este workflow faz as seguintes tarefas:
 
 Em caso de dúvidas, favor contactar:
 
-- [Luiz Vidal](mailto:lvvidal@gmail.com)
+<br> Luiz Vinicius Vidal <br>
+
+- [E-mail](mailto:lvvidal@gmail.com)
 - [Skype](callto:winicjusz.vidal)
 - [Whatsapp](tel:+5541991335129)
 
