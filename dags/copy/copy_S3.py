@@ -91,8 +91,8 @@ dag = DAG(
     catchup=False,
     schedule_interval='30 3 * * *')  # 00:30 GMT-3
 
-#   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
-#       dag.doc_md = f.read()
+   with open(f'{AIRFLOW_HOME}/dags/copy/copy_s3.md', 'r') as f:
+       dag.doc_md = f.read()
 
 start_log = DummyOperator(
     task_id='start_log',
