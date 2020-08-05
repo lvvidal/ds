@@ -65,6 +65,9 @@ def move_load_files(source,destination):
     print(src_dir)
     print(dst_dir)
 
+    if os.path.exists(dst_dir):
+        shutil.rmtree(dst_dir)
+
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
 
