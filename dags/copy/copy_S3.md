@@ -5,9 +5,9 @@
   </summary>
 <p>
 
-<p align="center">
+<p align="left">
   <a href="https://datasprints.com/">
-    <img src="https://data-sprints-candidate-luizvidal.s3.us-east-2.amazonaws.com/logo.png" alt="Data Sprints" width="128" height="44">
+    <img src="https://data-sprints-candidate-luizvidal.s3.us-east-2.amazonaws.com/logo.png" alt="Data Sprints" width="128" height="128">
   </a>
 </p>
 
@@ -39,7 +39,7 @@ Este workflow faz as seguintes tarefas:
   </tr>
   <tr>
     <td class="subheader">get_file_extractJSON2009</td>
-    <td class="texto" rowspan="3">Esta task faz o download dos arquivos de payment, vendor e trips do bucket da data-sprints.</td>
+    <td class="texto" rowspan="6">Esta task faz o download dos arquivos de payment, vendor e trips do bucket da data-sprints.</td>
   </tr>
   <tr>
     <td class="subheader">get_file_extractJSON2010</td>
@@ -57,64 +57,46 @@ Este workflow faz as seguintes tarefas:
     <td class="subheader">get_file_extractCSVVendor</td>
   </tr> 
   <tr>
-    <td class="subheader">create_athena_scci_securitizadora_raw</td>
-    <td class="texto" rowspan="3">Esta task faz a criação - "CREATE" - dos bancos de dados  "raw" no Athena  - Securitizadora, Hipotecária e Banco.</td>
+    <td class="subheader">clean_task</td>
+    <td class="texto">Dummy task apenas para entendimento do fluxo.</td>
   </tr>
   <tr>
-    <td class="subheader">create_athena_database_scci_hipotecaria_raw</td>
+    <td class="subheader">clean_csv</td>
+    <td class="texto" rowspan="2">Essas tasks fazem a limpeza tanto dos csv's, removendo um header extra do arquivo payment e transformam os arquivos json que estão em um formato no qual não é possível transforma-lo em csv.</td>
+  </tr>
+  <tr>
+    <td class="subheader">clean_json</td>
+  </tr> 
+  <tr>
+    <td class="subheader">json_to_csv</td>
+    <td class="texto">Esta task converte os arquivos json's em arquivos csv.</td>
+  </tr>
+  <tr>
+    <td class="subheader">move_files</td>
+    <td class="texto">Esta task move os arquivos csv para a pasta load, pasta na qual a task do s3 irá buscar os arquivos que serão "upados" para nuvem.</td>
+  </tr>
+  <tr>
+    <td class="subheader">upload_to_s3_extractJSON2009</td>
+    <td class="texto" rowspan="6">Esta task faz o download dos arquivos de payment, vendor e trips do bucket da data-sprints.</td>
+  </tr>
+  <tr>
+    <td class="subheader">upload_to_s3_extractJSON2010</td>
   </tr> 
   <tr>  
-    <td class="subheader">create_athena_database_scci_banco_raw</td>
+    <td class="subheader">upload_to_s3_extractJSON2011</td>
   </tr>
   <tr>
-    <td class="subheader">remove_ddl_raw_securitizadora</td>
-    <td class="texto" rowspan="3">Esta task limpa a pasta que contém os scripts .sql de criação de tabelas dos bancos "raw" no Athena  - Securitizadora, Hipotecária e Banco.</td>
-  </tr>
-  <tr>
-    <td class="subheader">remove_ddl_raw_hipotecaria</td>
+    <td class="subheader">upload_to_s3_extractJSON2012</td>
   </tr> 
   <tr>  
-    <td class="subheader">remove_ddl_raw_banco</td>
+    <td class="subheader">upload_to_s3_extractCSVPayment</td>
   </tr>
   <tr>
-    <td class="subheader">download_ddls_securitizadora_from_s3</td>
-    <td class="texto" rowspan="3">Esta task faz o download dos scripts de criação de tabelas "raw" do Athena para a pasta local do servidor do Airflow - Securitizadora, Hipotecária e Banco.</td>
-  </tr>
-  <tr>
-    <td class="subheader">download_ddls_hipotecaria_from_s3</td>
+    <td class="subheader">upload_to_s3_extractCSVVendor</td>
   </tr> 
-  <tr>  
-    <td class="subheader">download_ddls_banco_from_s3</td>
-  </tr>
   <tr>
-    <td class="subheader">create_raw_tables_securitizadora</td>
-    <td class="texto" rowspan="3">Esta task executa todos os scripts .sql de criação de tabela para o banco de dados "Raw" do Athena, dependendo da origem dos dados, ou seja, Securitizadora, Hipotecária ou Banco, a tabela irá pertencer a seu banco de dados respectivo.</td>
-  </tr>
-  <tr>
-    <td class="subheader">create_raw_tables_hipotecaria</td>
-  </tr> 
-  <tr>  
-    <td class="subheader">create_raw_tables_banco</td>
-  </tr>
-  <tr>
-    <td class="subheader">drop_athena_database_processed</td>
-    <td class="texto">Esta task faz a deleção - "DROP" - dos bancos de dados "processed" no Athena.</td>
-  </tr>
-  <tr>
-    <td class="subheader">create_athena_database_processed</td>
-    <td class="texto">Esta task faz a criação - "CREATE" - dos bancos de dados "processed" no Athena.</td>
-  </tr>
-  <tr>
-    <td class="subheader">create_processed_tables</td>
-    <td class="texto">Esta task executa todos os scripts .sql de criação de tabela para o banco de dados "Processed" do Athena e também faz o "union" entre as tabelas de mesmo nome de bancos diferentes. Ex: tabela PRETENDENTE do banco da Hipotecária com tabela PRETENDENTE da Securitizadora irá se transformar em apenas um tabelas no banco de dados "Processed".</td>
-  </tr>
-  <tr>
-    <td class="subheader">drop_athena_database_business</td>
-    <td class="texto">Esta task faz a deleção - "DROP" - dos bancos de dados "business" no Athena.</td>
-  </tr>
-  <tr>
-    <td class="subheader">create_athena_database_business</td>
-    <td class="texto">Esta task faz a criação - "CREATE" - dos bancos de dados "business" no Athena.</td>
+    <td class="subheader">remove_old_files</td>
+    <td class="texto">Task que remove os arquivos nas pastas dos contêiners, para que caso a dag execute novamente não venha a falhar.</td>
   </tr>
   <tr>
     <td class="subheader">end_log</td>
@@ -122,13 +104,12 @@ Este workflow faz as seguintes tarefas:
   </tr>
 </table><br>
                                                                                                                                                
-#### Data-Team
+#### Data-Engineer
 
 Em caso de dúvidas, favor contactar:
 
-- [Anderson Igarashi](mailto:anderson.igarashi@baripromotora.com.br)
-- [Marcos Gritti](mailto:marcos.gritti@baritecnologia.com.br)
-- [Luiz Vidal](mailto:luiz.vidal@baritecnologia.com.br)
+- [Luiz Vidal](mailto:lvvidal@gmail.com)
+- [Whatsapp](+5541991335129)
 
 </p>
 </details>
