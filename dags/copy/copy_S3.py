@@ -143,9 +143,9 @@ json_to_csv = PythonOperator(
     },
     dag=dag)
 
-copy_files = PythonOperator(
-    task_id='copy_files',
-    python_callable=copy_load_files,
+move_files = PythonOperator(
+    task_id='move_files',
+    python_callable=move_load_files,
     op_kwargs={
         'source': f'{AIRFLOW_HOME}/dags/data/',
         'destination' : f'{AIRFLOW_HOME}/dags/load/'

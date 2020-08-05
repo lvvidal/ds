@@ -57,7 +57,7 @@ def json_2_csv(path):
             for row in data:
                 output.writerow(row.values())
 
-def copy_load_files(source,destination):
+def move_load_files(source,destination):
 
     src_dir = source
     dst_dir = destination
@@ -71,4 +71,4 @@ def copy_load_files(source,destination):
     for root, dirs, files in os.walk(src_dir):
         for f in files:
             if f.endswith('.csv'):
-                shutil.copy(os.path.join(root,f), dst_dir)
+                shutil.move(os.path.join(root,f), dst_dir)
