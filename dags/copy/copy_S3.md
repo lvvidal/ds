@@ -1,4 +1,4 @@
-### Dag: Prognum_Athena_Processing
+### Dag: Copy S3
 <details>
   <summary>
   Clique aqui para maiores informações sobre a Dag
@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://datasprints.com/">
-    <img src="https://data-sprints-candidate-luizvidal.s3.us-east-2.amazonaws.com/logo.png" alt="Barigui" width="128" height="44">
+    <img src="https://data-sprints-candidate-luizvidal.s3.us-east-2.amazonaws.com/logo.png" alt="Data Sprints" width="128" height="44">
   </a>
 </p>
 
@@ -38,15 +38,24 @@ Este workflow faz as seguintes tarefas:
     <td class="texto">Task Inicial - apenas indica o horário de início da execução do fluxo.</td>
   </tr>
   <tr>
-    <td class="subheader">drop_athena_database_scci_securitizadora_raw</td>
-    <td class="texto" rowspan="3">Esta task faz a deleção - "DROP" - dos bancos de dados "raw" no Athena - Securitizadora, Hipotecária e Banco.</td>
+    <td class="subheader">get_file_extractJSON2009</td>
+    <td class="texto" rowspan="3">Esta task faz o download dos arquivos de payment, vendor e trips do bucket da data-sprints.</td>
   </tr>
   <tr>
-    <td class="subheader">drop_athena_database_scci_hipotecaria_raw</td>
+    <td class="subheader">get_file_extractJSON2010</td>
   </tr> 
   <tr>  
-    <td class="subheader">drop_athena_database_scci_banco_raw</td>
+    <td class="subheader">get_file_extractJSON2011</td>
   </tr>
+  <tr>
+    <td class="subheader">get_file_extractJSON2012</td>
+  </tr> 
+  <tr>  
+    <td class="subheader">get_file_extractCSVPayment</td>
+  </tr>
+  <tr>
+    <td class="subheader">get_file_extractCSVVendor</td>
+  </tr> 
   <tr>
     <td class="subheader">create_athena_scci_securitizadora_raw</td>
     <td class="texto" rowspan="3">Esta task faz a criação - "CREATE" - dos bancos de dados  "raw" no Athena  - Securitizadora, Hipotecária e Banco.</td>
