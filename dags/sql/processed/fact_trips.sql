@@ -3,7 +3,7 @@ WITH (
      format = 'TEXTFILE', 
      field_delimiter = '|',
      external_location = 's3://data-sprints-candidate-luizvidal/data/FACT_TRIPS/',
-     partitioned_by = array['dt_obs'])
+     partitioned_by = array['year'])
 AS
 SELECT vendor_id
 	, cast(regexp_replace(substr(pickup_datetime,1,19),'T',' ')  as timestamp) as "pickup_datetime"
@@ -18,9 +18,10 @@ SELECT vendor_id
 	, dropoff_longitude
 	, dropoff_latitude
 	, upper(payment_type) as "payment_type"
-	, fare_amount
+	, cast(fare_amount as decimal(15,2)) as "fare_amount"
 	, cast(surcharge as decimal(15,2)) as "surcharge"
 	, cast(tip_amount as decimal(15,2)) as "tip_amount"
 	, cast(tolls_amount as decimal(15,2)) as "tolls_amount"
 	, cast(total_amount as decimal(15,2)) as "total_amount"
+	, year(cast(regexp_replace(substr(pickup_datetime,1,19),'T',' ')  as timestamp)) as "year"
 FROM datasprints.trips;

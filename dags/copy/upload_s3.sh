@@ -17,6 +17,3 @@ echo "destination_path=$destination_path"
 
 cd ${folder_local} || exit 1
 aws s3 cp ${file_local} "${destination_path}"
-
-
-
