@@ -25,13 +25,13 @@ Em resumo, segue uma imagem sobre a arquitetura utilizada:
 
 > Scripts shell/AWS cli: criação de pastas, curl, sed, aws s3 cp
 
-* [Curl](https://raw.githubusercontent.com/lvvidal/master/ds/dags/copy/create_folder.sh)
-* [AWS Cli](https://raw.githubusercontent.com/lvvidal/master/ds/dags/copy/upload_s3.sh)
+* [Curl](https://raw.githubusercontent.com/lvvidal/ds/dags/copy/create_folder.sh)
+* [AWS Cli](https://raw.githubusercontent.com/lvvidal/ds/master/dags/copy/upload_s3.sh)
 
 > Python : DAG Airflow (Operators: Bash, Python, Dummy), além de script de auxílio aos operadores (tasks).
 
-* [Dags](https://raw.githubusercontent.com/lvvidal/master/ds/dags/copy/copy_S3.py)
-* [Utils](https://raw.githubusercontent.com/lvvidal/master/ds/dags/scripts/utils.py)
+* [Dags](https://raw.githubusercontent.com/lvvidal/ds/master/dags/copy/copy_S3.py)
+* [Utils](https://raw.githubusercontent.com/lvvidal/ds/master/dags/scripts/utils.py)
 
 #### Data-Engineer
 
