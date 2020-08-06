@@ -49,7 +49,7 @@ Bibliotecas (os, csv, json, sys, shutil)
 
 DAG :
 
-![image] https://github.com/lvvidal/ds/master/images/airflow.png
+![image](https://github.com/lvvidal/ds/master/images/airflow.png)
 
 > Nifi : ferramenta para fluxo de dados em streaming, no nosso cenário, faz o mesmo que o Airflow, mas pode ser usada para um fluxo ininterrupto de dados, seja de fontes oriúndas de IoT, bancos de dados, arquivos, etc.
 
@@ -59,15 +59,15 @@ Fluxo de Dados:
 
 Group Principal : Contém os subgroups (Extract & Load)
 
-![image] https://raw.githubusercontent.com/lvvidal/ds/master/images/nifi_main.png
+![image](https://raw.githubusercontent.com/lvvidal/ds/master/images/nifi_main.png)
 
 Extract: copia os arquivos dos buckets do S3 da Data Sprints e move-os para a pasta do docker do Nifi
 
-![image] https://raw.githubusercontent.com/lvvidal/ds/master/images/nifi_extract.png
+![image](https://raw.githubusercontent.com/lvvidal/ds/master/images/nifi_extract.png)
 
 Load: faz a limpeza dos arquivos csv e json, quebra os arquivos json em linhas e depois junta-os novamente fazendo merge, transforma e csv e faz o upload de todos os arquivos novamente para o S3.
 
-![image] https://raw.githubusercontent.com/lvvidal/ds/master/images/nifi_load.png
+![image](https://raw.githubusercontent.com/lvvidal/ds/master/images/nifi_load.png)
 
 > Tableau : ferramenta para visualização de dados, utilizada no nosso cenário para algumas análises referentes aos dados sobre viagens de táxi de NYC.
 
