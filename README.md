@@ -20,15 +20,26 @@ Em resumo, segue uma imagem sobre a arquitetura utilizada:
 - Athena consulta os dados sobre o s3
 - Tableau conecta-se ao Athena via ODBC
 - Outras tecnologias: Python, SQL, Shell Scripting, Docker-Compose.
-                                                                                                                                          
+                                                                                                    
+#### Tecnologias utilizadas:
+
+> Scripts shell/AWS cli: criação de pastas, curl, sed, aws s3 cp
+
+* [Curl](https://raw.githubusercontent.com/lvvidal/ds/dags/copy/create_folder.sh)
+* [AWS Cli](https://raw.githubusercontent.com/lvvidal/ds/dags/copy/upload_s3.sh)
+
+> Python : DAG Airflow (Operators: Bash, Python, Dummy), além de script de auxílio aos operadores (tasks).
+
+* [Dags](https://raw.githubusercontent.com/lvvidal/ds/dags/copy/copy_S3.py)
+* [Utils](https://raw.githubusercontent.com/lvvidal/ds/dags/scripts/utils.py)
+
 #### Data-Engineer
 
 Em caso de dúvidas, favor contactar:
 Luiz Vinicius Vidal <br>
 
 - [E-mail](mailto:lvvidal@gmail.com)
-- [Skype](callto:winicjusz.vidal)
-- [Whatsapp](tel:+5541991335129)
+- [Linkedin](https://www.linkedin.com/in/vinicius-vidal-b5849458/)
 
 </p>
 </details>
