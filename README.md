@@ -41,15 +41,15 @@ Bibliotecas (os, csv, json, sys, shutil)
 
 > SQL : Scripts usados para criação das tabelas pasta _raw (tabelas com dados do jeito que foram colocados no S3, sem transformação), tabelas pasta _processed (tabelas que foram transformadas, alguns campos que serão usados na análise já estão calculados) e pasta _results (scripts que trazem as mesmas respostas que são obtidas com ferramenta de visualização de dados)
 
-* [Raw](https://raw.githubusercontent.com/lvvidal/ds/master/dags/sql/create_trips.sql)
-* [Processed](https://raw.githubusercontent.com/lvvidal/ds/master/dags/sql/fact_trips.sql)
-* [Answers](https://raw.githubusercontent.com/lvvidal/ds/master/dags/sql/results.sql)
+* [Raw](https://raw.githubusercontent.com/lvvidal/ds/master/dags/sql/raw/create_trips.sql)
+* [Processed](https://raw.githubusercontent.com/lvvidal/ds/master/dags/sql/processed/fact_trips.sql)
+* [Answers](https://raw.githubusercontent.com/lvvidal/ds/master/dags/sql/answers/results.sql)
 
 > Apache Airflow: ferramenta para gerenciamento de fluxos de trabalho, através de códigos Python, com possibilidade de agendamento de tarefas.
 
 DAG :
 
-![image](https://github.com/lvvidal/ds/master/images/airflow.png)
+![image](https://raw.githubusercontent.com/lvvidal/ds/master/images/airflow.png)
 
 > Nifi : ferramenta para fluxo de dados em streaming, no nosso cenário, faz o mesmo que o Airflow, mas pode ser usada para um fluxo ininterrupto de dados, seja de fontes oriúndas de IoT, bancos de dados, arquivos, etc.
 
