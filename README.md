@@ -79,8 +79,7 @@ Link para acessar o dashboard
 * [Tableau](https://public.tableau.com/profile/luiz.vinicius.vidal#!/vizhome/DataSprints/TestDataEngineer?publish=yes)
 
 ## Observação
-Estou utilizando minha conta pessoal da AWS e portanto deixei a máquina onde roda o Airflow e Nifi desligadas, portanto se possível entrar em contato para que eu possa subir as máquina e passar os links para que seja possível acessar o que está na cloud.
-Informei isto por e-mail também para: recrutamento@datasprints.com 
+Estou utilizando minha conta pessoal da AWS e deixei a máquina onde roda o Airflow e Nifi desligadas, portanto se possível entrar em contato para que eu possa subir as máquina e passar os links para que seja possível acessar o que está na cloud. Informei isto por e-mail também para: recrutamento@datasprints.com 
 
 #### Data-Engineer
 
