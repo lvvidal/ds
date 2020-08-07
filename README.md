@@ -71,6 +71,17 @@ Load: faz a limpeza dos arquivos csv e json, quebra os arquivos json em linhas e
 
 > Tableau : ferramenta para visualização de dados, utilizada no nosso cenário para algumas análises referentes aos dados sobre viagens de táxi de NYC.
 
+Dashboard: ao acessar o dashboard, existe um "radio button" na parte superior da tela, basta clicar nas opções para ir trocando o painel que será exibido. Cada painel representar uma resposta diferente do teste.
+
+![image](https://raw.githubusercontent.com/lvvidal/ds/master/images/tableau.png)
+
+Link para acessar o dashboard
+* [Tableau](https://public.tableau.com/profile/luiz.vinicius.vidal#!/vizhome/DataSprints/TestDataEngineer?publish=yes)
+
+## Observação
+Estou utilizando minha conta pessoal da AWS e portanto deixei a máquina onde roda o Airflow e Nifi desligadas, portanto se possível entrar em contato para que eu possa subir as máquina e passar os links para que seja possível acessar o que está na cloud.
+Informei isto por e-mail também para: recrutamento@datasprints.com 
+
 #### Data-Engineer
 
 Em caso de dúvidas, favor contactar:
